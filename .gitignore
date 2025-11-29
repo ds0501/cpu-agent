@@ -1,0 +1,12 @@
+# Python venv
+venv/
+.env
+__pycache__/
+*.pyc
+
+# VSCode
+.vscode/
+
+# Chroma DB data
+chroma_lectures/
+chroma_memory/
