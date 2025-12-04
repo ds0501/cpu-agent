@@ -5,7 +5,7 @@ Chroma DB를 사용한 장기 메모리 저장
 import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
-from app.config import CHROMA_PERSIST_DIR, EMBEDDING_MODEL
+from app.settings import CHROMA_PERSIST_DIR, EMBEDDING_MODEL
 from typing import List, Dict
 from datetime import datetime
 import json

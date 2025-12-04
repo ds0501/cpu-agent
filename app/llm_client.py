@@ -5,7 +5,7 @@ B파트 LangChain Runnable 인터페이스 제공
 from openai import OpenAI
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.runnables import Runnable
-from app.config import OPENAI_API_KEY, MODEL_NAME
+from app.settings import OPENAI_API_KEY, MODEL_NAME
 from typing import Dict, Any
 import json
 
@@ -99,7 +99,7 @@ class OpenAILLMRunnable(Runnable):
     def _add_system_prompt(self, messages):
         """System Prompt 자동 추가"""
         try:
-            from app.config.prompts import SYSTEM_PROMPT
+            from app.settings.prompts import SYSTEM_PROMPT
             system_content = SYSTEM_PROMPT
         except ImportError:
             system_content = "You are a helpful AI assistant."
@@ -180,7 +180,7 @@ def call_llm(messages: list, tools: list = None, **kwargs):
     """
     # System Prompt 추가
     try:
-        from app.config.prompts import SYSTEM_PROMPT
+        from app.settings.prompts import SYSTEM_PROMPT
         if not messages or messages[0].get("role") != "system":
             messages = [
                 {"role": "system", "content": SYSTEM_PROMPT}
