@@ -14,12 +14,11 @@ ALL_TOOL_SPECS = [
     memory_tools.WRITE_MEMORY_TOOL_SPEC,
 ]
 
-# Tool 실행 함수 매핑
 TOOL_EXECUTORS = {
     "calculator": calculator.execute,
-    "get_current_time": time_tool.execute,
+    "time_now": time_tool.execute,
     "google_search": google_search.execute,
-    "search_lectures": rag_tool.execute,
+    "rag_search": rag_tool.execute,
     "read_memory": memory_tools.execute_read_memory,
     "write_memory": memory_tools.execute_write_memory,
 }

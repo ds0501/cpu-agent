@@ -6,6 +6,8 @@ B파트와의 통합 인터페이스
 # A파트 Tool Registry export
 from app.tools.registry import execute_tool, ALL_TOOL_SPECS
 
+from app.rag.indexer import index_pdf_file
+
 # B파트 호환 함수들
 def run_tool(tool_name: str, tool_args: dict) -> dict:
     """
@@ -25,24 +27,6 @@ def run_tool(tool_name: str, tool_args: dict) -> dict:
             "result": None,
             "error": result.get("error")
         }
-
-
-def index_pdf_file(file_path: str) -> bool:
-    """
-    B파트 호환용 PDF 색인 함수
-    app.tools.index_pdf_file로 import 가능
-    """
-    try:
-        from app.rag.indexer import PDFIndexer
-        
-        indexer = PDFIndexer()
-        chunks = indexer.index_pdf(file_path)
-        
-        return chunks > 0
-    
-    except Exception as e:
-        print(f"❌ PDF 색인 오류: {e}")
-        return False
 
 
 # B파트에서 사용할 export

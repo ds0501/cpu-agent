@@ -7,6 +7,7 @@ from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
 from app.config import CHROMA_PERSIST_DIR, EMBEDDING_MODEL
 from typing import List, Dict
+import uuid
 
 class ChromaStore:
     """Chroma DB 래퍼"""
@@ -41,8 +42,8 @@ class ChromaStore:
         texts = [doc["content"] for doc in documents]
         embeddings = self.embedder.encode(texts).tolist()
         
-        # ID 생성
-        ids = [f"doc_{i}" for i in range(len(documents))]
+        # ID 생성 (UUID로 충돌 방지)
+        ids = [str(uuid.uuid4()) for _ in documents]
         
         # Metadata 준비
         metadatas = [doc.get("metadata", {}) for doc in documents]

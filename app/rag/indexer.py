@@ -69,6 +69,26 @@ class PDFIndexer:
         print(f"✅ 색인 완료!")
         return len(documents)
 
+def index_pdf_file(file_path: str) -> bool:
+    """
+    외부(UI/Tools)에서 호출하기 위한 래퍼 함수
+    B파트 UI에서 PDF 업로드 시 사용
+    
+    Args:
+        file_path: PDF 파일 경로
+    
+    Returns:
+        성공 여부
+    """
+    try:
+        indexer = PDFIndexer()
+        count = indexer.index_pdf(file_path)
+        print(f"✅ PDF 색인 완료: {count}개 청크")
+        return True if count > 0 else False
+    except Exception as e:
+        print(f"❌ PDF 색인 중 오류 발생: {e}")
+        return False
+
 
 # CLI 사용
 if __name__ == "__main__":
@@ -79,5 +99,5 @@ if __name__ == "__main__":
         sys.exit(1)
     
     pdf_path = sys.argv[1]
-    indexer = PDFIndexer()
-    indexer.index_pdf(pdf_path)
+    success = index_pdf_file(pdf_path)
+    sys.exit(0 if success else 1)

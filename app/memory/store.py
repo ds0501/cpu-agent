@@ -9,6 +9,7 @@ from app.config import CHROMA_PERSIST_DIR, EMBEDDING_MODEL
 from typing import List, Dict
 from datetime import datetime
 import json
+import uuid
 
 class MemoryStore:
     """장기 메모리 저장소"""
@@ -46,8 +47,8 @@ class MemoryStore:
         # Embedding 생성
         embedding = self.embedder.encode([content]).tolist()[0]
         
-        # ID 생성
-        memory_id = f"mem_{datetime.now().timestamp()}"
+        # ID 생성 (UUID 사용)
+        memory_id = str(uuid.uuid4())
         
         # Chroma에 저장
         self.collection.add(

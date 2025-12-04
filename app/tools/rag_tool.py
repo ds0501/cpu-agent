@@ -1,13 +1,13 @@
 """
 RAG Search Tool
-강의 자료 검색
+Chroma DB에서 강의 자료 검색
 """
 
 TOOL_SPEC = {
     "type": "function",
     "function": {
-        "name": "search_lectures",
-        "description": "강의 자료(PDF)에서 관련 내용을 검색합니다. 수업 내용, 슬라이드 내용 등을 찾을 때 사용하세요.",
+        "name": "rag_search",
+        "description": "색인된 강의 자료에서 관련 내용을 검색합니다.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -29,7 +29,7 @@ TOOL_SPEC = {
 
 def execute(query: str, top_k: int = 3) -> dict:
     """
-    강의 자료 검색
+    RAG 검색 실행
     
     Args:
         query: 검색어
@@ -42,26 +42,24 @@ def execute(query: str, top_k: int = 3) -> dict:
         from app.rag.store import ChromaStore
         
         store = ChromaStore()
-        results = store.search_documents(query, top_k=top_k)
+        documents = store.search_documents(query, top_k=top_k)
         
-        if not results:
+        if not documents:
             return {
                 "success": True,
-                "result": [],
-                "error": "검색 결과가 없습니다. PDF 파일을 먼저 업로드하세요."
+                "result": "관련된 강의 자료가 없습니다. PDF 파일을 먼저 업로드해주세요.",
+                "error": None
             }
         
-        formatted_results = []
-        for doc in results:
-            formatted_results.append({
-                "content": doc["content"],
-                "metadata": doc["metadata"],
-                "similarity": doc.get("distance", 0)
-            })
+        # 결과 포맷팅
+        result_text = f"📚 '{query}'와 관련된 강의 내용:\n\n"
+        for i, doc in enumerate(documents, 1):
+            result_text += f"{i}. {doc['content'][:200]}...\n"
+            result_text += f"   (출처: {doc['metadata'].get('source', 'Unknown')})\n\n"
         
         return {
             "success": True,
-            "result": formatted_results,
+            "result": result_text,
             "error": None
         }
     
