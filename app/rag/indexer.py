@@ -3,7 +3,7 @@ PDF Indexer
 PDF 파일을 읽어서 Chroma DB에 저장
 """
 import PyPDF2
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from app.rag.store import ChromaStore
 from pathlib import Path
 
